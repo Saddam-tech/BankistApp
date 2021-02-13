@@ -69,10 +69,12 @@ const calcDisplayBalance = function (acc) {
   labelBalance.textContent = `${acc.balance}€`;
 };
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -86,6 +88,17 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
+
+//Sorting EventListener
+
+let sorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
 
 // Creating usernames
 
@@ -184,8 +197,22 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+    //Add movement
+    currentAccount.movements.push(amount);
+
+    //Update UI
+    updateUI(currentAccount);
+  }
+  inputLoanAmount.value = '';
+});
+
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
+
   console.log('Delete');
 
   if (
@@ -195,8 +222,19 @@ btnClose.addEventListener('click', function (e) {
     const index = accounts.findIndex(
       acc => acc.username === currentAccount.username
     );
-
+    //Delete account
     accounts.splice(index, 1);
+
+    //Hide the UI
+    containerApp.style.opacity = 0;
+
+    // Display UI and message
+    labelWelcome.textContent = `See you again, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
+
+    inputCloseUsername.value = inputClosePin.value = '';
+    inputClosePin.blur();
   }
 });
 
@@ -383,11 +421,36 @@ calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
 // console.log(totalDepositsUSD);
 
-const firstWithdrawal = movements.find(mov => mov < 0);
+// const firstWithdrawal = movements.find(mov => mov < 0);
 
-console.log(movements);
-console.log(firstWithdrawal);
+// console.log(movements);
+// console.log(firstWithdrawal);
 
-const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+// const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 
-console.log(account);
+// console.log(account);
+
+// Some: condition
+
+// const anyDeposits = movements.some(mov => mov > 0);
+
+// console.log(anyDeposits);
+
+// EVERY
+
+// console.log(movements.every(mov => mov > 0));
+// console.log(account4.movements.every(mov => mov > 0));
+
+// const deposit = mov => mov > 0;
+
+// console.log(movements.every(deposit));
+// console.log(movements.some(deposit));
+// console.log(movements.filter(deposit));
+
+// const overallBalance = accounts
+//   .flatMap(acc => acc.movements)
+//   .reduce((acc, cur) => acc + cur, 0);
+
+// console.log(overallBalance);
+
+console.log(movements.sort((a, b) => a - b));
