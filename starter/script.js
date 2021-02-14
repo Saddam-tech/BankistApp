@@ -462,10 +462,36 @@ GOOD LUCK 😀
 // const arr2 = Array.from({ length: 100 }, (_, i) => i + 1);
 // console.log(arr2);
 
-labelBalance.addEventListener('click', function () {
-  const movementsUI = Array.from(
-    document.querySelectorAll('.movements__value'),
-    el => Number(el.textContent.replace('€', ''))
+// labelBalance.addEventListener('click', function () {
+//   const movementsUI = Array.from(
+//     document.querySelectorAll('.movements__value'),
+//     el => Number(el.textContent.replace('€', ''))
+//   );
+//   console.log(`Here we go: ${movementsUI}`);
+// });
+
+const bankDeposit = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, cur) => acc + cur, 0);
+
+console.log(bankDeposit);
+
+///////
+
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov >= 1000).length;
+
+console.log(numDeposits1000);
+
+////
+
+const sums = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur);
+    },
+    { deposits: 0, withdrawals: 0 }
   );
-  console.log(`Here we go: ${movementsUI}`);
-});
