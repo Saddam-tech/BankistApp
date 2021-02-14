@@ -367,11 +367,11 @@ GOOD LUCK 😀
 
 //Challenge 2
 
-const calcAverageHumanAge = ages =>
-  ages
-    .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
-    .filter(humanAge => humanAge >= 18)
-    .reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+// const calcAverageHumanAge = ages =>
+//   ages
+//     .map(age => (age <= 2 ? 2 * age : 16 + age * 4))
+//     .filter(humanAge => humanAge >= 18)
+//     .reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
 // const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
 // const excludeDog = humanAges.filter(humanAge => humanAge >= 18);
@@ -382,8 +382,8 @@ const calcAverageHumanAge = ages =>
 // console.log(`humanAges: ${humanAges}`);
 // console.log(`excludeDog: ${excludeDog}`);
 
-calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
+// calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+// calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
 // const calcAverageHumanAge2 = function (ages) {
 //   const humanAges = ages.map(age => (age <= 2 ? 2 * age : 16 + age * 4));
@@ -453,4 +453,19 @@ calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
 // console.log(overallBalance);
 
-console.log(movements.sort((a, b) => a - b));
+// console.log(movements.sort((a, b) => a - b));
+
+// const arr = new Array(7);
+// arr.fill(2, 2, 5);
+// console.log(arr);
+
+// const arr2 = Array.from({ length: 100 }, (_, i) => i + 1);
+// console.log(arr2);
+
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value'),
+    el => Number(el.textContent.replace('€', ''))
+  );
+  console.log(`Here we go: ${movementsUI}`);
+});
